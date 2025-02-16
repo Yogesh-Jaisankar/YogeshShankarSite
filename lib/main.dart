@@ -160,152 +160,314 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               child: Column(
                 children: [
                   Container(
-                    height: 700,
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(color: Colors.black),
-                    child: Row(
-                      children: [
-                        Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            // Animated Blurred Background Glow
-                            AnimatedBuilder(
-                              animation: _controller,
-                              builder: (context, child) {
-                                return ClipRRect(
-                                  borderRadius: BorderRadius.circular(460),
-                                  child: BackdropFilter(
-                                    filter: ImageFilter.blur(
-                                      sigmaX: _blurAnimation.value,
-                                      sigmaY: _blurAnimation.value,
-                                    ),
-                                    child: Container(
-                                      height: 420,
-                                      width: 420,
-                                      decoration: BoxDecoration(
-                                        gradient: RadialGradient(
-                                          colors: [
-                                            Color.fromRGBO(218, 112, 214,
-                                                0.6), // Soft glowing center
-                                            Color.fromRGBO(75, 0, 130,
-                                                0.3), // Outer fading effect
-                                          ],
-                                          stops: [0.3, 1.0],
-                                          radius: _glowAnimation
-                                              .value, // Smooth expansion
+                      height:
+                          MediaQuery.of(context).size.height < 900 ? 800 : 700,
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(color: Colors.black),
+                      child: LayoutBuilder(
+                        builder: (context, constraints) {
+                          bool isMobile = constraints.maxWidth < 720;
+
+                          return isMobile
+                              ? Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Stack(
+                                      alignment: Alignment.center,
+                                      children: [
+                                        // Animated Blurred Background Glow
+                                        AnimatedBuilder(
+                                          animation: _controller,
+                                          builder: (context, child) {
+                                            return ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(460),
+                                              child: BackdropFilter(
+                                                filter: ImageFilter.blur(
+                                                  sigmaX: _blurAnimation.value,
+                                                  sigmaY: _blurAnimation.value,
+                                                ),
+                                                child: Container(
+                                                  height: 320,
+                                                  width: 320,
+                                                  decoration: BoxDecoration(
+                                                    gradient: RadialGradient(
+                                                      colors: [
+                                                        Color.fromRGBO(
+                                                            218, 112, 214, 0.6),
+                                                        Color.fromRGBO(
+                                                            75, 0, 130, 0.3),
+                                                      ],
+                                                      stops: [0.3, 1.0],
+                                                      radius:
+                                                          _glowAnimation.value,
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            320),
+                                                  ),
+                                                ),
+                                              ),
+                                            );
+                                          },
                                         ),
-                                        borderRadius:
-                                            BorderRadius.circular(420),
+
+                                        // Animated Avatar Glow
+                                        AnimatedBuilder(
+                                          animation: _controller,
+                                          builder: (context, child) {
+                                            return Container(
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                gradient: RadialGradient(
+                                                  colors: [
+                                                    Color.fromRGBO(
+                                                        218, 112, 214, 1),
+                                                    Color.fromRGBO(
+                                                        75, 0, 130, 1),
+                                                  ],
+                                                  stops: [0.4, 1.0],
+                                                  radius: _glowAnimation.value,
+                                                ),
+                                              ),
+                                              child: const CircleAvatar(
+                                                radius: 150,
+                                                backgroundImage: NetworkImage(
+                                                  'https://raw.githubusercontent.com/Yogesh-Jaisankar/portfolio/main/assets/images/image.jpeg',
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 40),
+                                    Text(
+                                      "Hello 👋🏻!, Myself\nYOGESH JAISANKAR",
+                                      textAlign: TextAlign.center,
+                                      style: GoogleFonts.lexend(
+                                        color: Colors.white,
+                                        fontSize: 40,
+                                        fontWeight: FontWeight.bold,
+                                        height: 1.3,
                                       ),
                                     ),
-                                  ),
-                                );
-                              },
-                            ),
-
-                            // Animated Avatar Glow
-                            AnimatedBuilder(
-                              animation: _controller,
-                              builder: (context, child) {
-                                return Container(
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    gradient: RadialGradient(
-                                      colors: [
-                                        Color.fromRGBO(
-                                            218, 112, 214, 1), // Bright center
-                                        Color.fromRGBO(
-                                            75, 0, 130, 1), // Dark outer glow
+                                    const SizedBox(height: 20),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 20),
+                                      child: Text(
+                                        "My journey as a self-taught developer has been fueled by curiosity and innovation. Whether it's building AI-driven dating platforms like VCult or solving logistical inefficiencies with Wheel and Meal, I thrive on creating impactful applications that bridge technology and business. With expertise in Flutter, MongoDB, AI/ML, and backend systems, I specialize in developing scalable, user-centric solutions.",
+                                        textAlign: TextAlign.center,
+                                        style: GoogleFonts.lexend(
+                                          color: Colors.white70,
+                                          fontSize: 16,
+                                          height: 1.5,
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 20),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        GestureDetector(
+                                          onTap: () => html.window.open(
+                                              'https://www.linkedin.com/in/yogeshjaisankar/',
+                                              '_blank'),
+                                          child: Image.asset(
+                                              'assets/images/ln.png',
+                                              width: 30,
+                                              height: 30),
+                                        ),
+                                        const SizedBox(width: 15),
+                                        GestureDetector(
+                                          onTap: () => html.window.open(
+                                              'https://github.com/Yogesh-Jaisankar',
+                                              '_blank'),
+                                          child: Image.asset(
+                                              'assets/images/git.png',
+                                              width: 40,
+                                              height: 40),
+                                        ),
+                                        const SizedBox(width: 15),
+                                        GestureDetector(
+                                          onTap: () => html.window.open(
+                                              'https://www.facebook.com/yogesh.jaisankar.9',
+                                              '_blank'),
+                                          child: Image.asset(
+                                              'assets/images/fb.png',
+                                              width: 30,
+                                              height: 30),
+                                        ),
+                                        const SizedBox(width: 15),
+                                        GestureDetector(
+                                          onTap: () => html.window.open(
+                                              'https://www.instagram.com/__yogesh_shankar/',
+                                              '_blank'),
+                                          child: Image.asset(
+                                              'assets/images/ig.png',
+                                              width: 30,
+                                              height: 30),
+                                        ),
                                       ],
-                                      stops: [0.4, 1.0],
-                                      radius: _glowAnimation
-                                          .value, // Expanding glow effect
                                     ),
-                                  ),
-                                  child: const CircleAvatar(
-                                    radius: 200,
-                                    backgroundImage: NetworkImage(
-                                      'https://raw.githubusercontent.com/Yogesh-Jaisankar/portfolio/main/assets/images/image.jpeg',
+                                  ],
+                                )
+                              : Row(
+                                  children: [
+                                    Stack(
+                                      alignment: Alignment.center,
+                                      children: [
+                                        // Animated Blurred Background Glow
+                                        AnimatedBuilder(
+                                          animation: _controller,
+                                          builder: (context, child) {
+                                            return ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(460),
+                                              child: BackdropFilter(
+                                                filter: ImageFilter.blur(
+                                                  sigmaX: _blurAnimation.value,
+                                                  sigmaY: _blurAnimation.value,
+                                                ),
+                                                child: Container(
+                                                  height: 420,
+                                                  width: 420,
+                                                  decoration: BoxDecoration(
+                                                    gradient: RadialGradient(
+                                                      colors: [
+                                                        Color.fromRGBO(
+                                                            218, 112, 214, 0.6),
+                                                        Color.fromRGBO(
+                                                            75, 0, 130, 0.3),
+                                                      ],
+                                                      stops: [0.3, 1.0],
+                                                      radius:
+                                                          _glowAnimation.value,
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            420),
+                                                  ),
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                        ),
+
+                                        // Animated Avatar Glow
+                                        AnimatedBuilder(
+                                          animation: _controller,
+                                          builder: (context, child) {
+                                            return Container(
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                gradient: RadialGradient(
+                                                  colors: [
+                                                    Color.fromRGBO(
+                                                        218, 112, 214, 1),
+                                                    Color.fromRGBO(
+                                                        75, 0, 130, 1),
+                                                  ],
+                                                  stops: [0.4, 1.0],
+                                                  radius: _glowAnimation.value,
+                                                ),
+                                              ),
+                                              child: const CircleAvatar(
+                                                radius: 200,
+                                                backgroundImage: NetworkImage(
+                                                  'https://raw.githubusercontent.com/Yogesh-Jaisankar/portfolio/main/assets/images/image.jpeg',
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      ],
                                     ),
-                                  ),
+                                    SizedBox(width: 100),
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          "Hello 👋🏻!, Myself\nYOGESH JAISANKAR",
+                                          textAlign: TextAlign.center,
+                                          style: GoogleFonts.lexend(
+                                            color: Colors.white,
+                                            fontSize: 50,
+                                            fontWeight: FontWeight.bold,
+                                            height: 1.3,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 20),
+                                        SizedBox(
+                                          width: 800,
+                                          child: Text(
+                                            "My journey as a self-taught developer has been fueled by curiosity and innovation. Whether it's building AI-driven dating platforms like VCult or solving logistical inefficiencies with Wheel and Meal, I thrive on creating impactful applications that bridge technology and business. With expertise in Flutter, MongoDB, AI/ML, and backend systems, I specialize in developing scalable, user-centric solutions.",
+                                            textAlign: TextAlign.center,
+                                            style: GoogleFonts.lexend(
+                                              color: Colors.white70,
+                                              fontSize: 18,
+                                              height: 1.5,
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(height: 20),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            GestureDetector(
+                                              onTap: () => html.window.open(
+                                                  'https://www.linkedin.com/in/yogeshjaisankar/',
+                                                  '_blank'),
+                                              child: Image.asset(
+                                                  'assets/images/ln.png',
+                                                  width: 30,
+                                                  height: 30),
+                                            ),
+                                            const SizedBox(width: 20),
+                                            GestureDetector(
+                                              onTap: () => html.window.open(
+                                                  'https://github.com/Yogesh-Jaisankar',
+                                                  '_blank'),
+                                              child: Image.asset(
+                                                  'assets/images/git.png',
+                                                  width: 40,
+                                                  height: 40),
+                                            ),
+                                            const SizedBox(width: 20),
+                                            GestureDetector(
+                                              onTap: () => html.window.open(
+                                                  'https://www.facebook.com/yogesh.jaisankar.9',
+                                                  '_blank'),
+                                              child: Image.asset(
+                                                  'assets/images/fb.png',
+                                                  width: 30,
+                                                  height: 30),
+                                            ),
+                                            const SizedBox(width: 20),
+                                            GestureDetector(
+                                              onTap: () => html.window.open(
+                                                  'https://www.instagram.com/__yogesh_shankar/',
+                                                  '_blank'),
+                                              child: Image.asset(
+                                                  'assets/images/ig.png',
+                                                  width: 30,
+                                                  height: 30),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                                 );
-                              },
-                            ),
-                          ],
-                        ),
-                        SizedBox(width: 100),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Hello 👋🏻!, Myself\nYOGESH JAISANKAR",
-                              textAlign: TextAlign.center, // Center the text
-                              style: GoogleFonts.lexend(
-                                color: Colors.white,
-                                fontSize: 50,
-                                fontWeight: FontWeight.bold, // Emphasize name
-                                height: 1.3, // Improve line spacing
-                              ),
-                            ),
-                            const SizedBox(
-                                height: 20), // Add spacing between texts
-                            SizedBox(
-                              width: 800, // Limit width for better readability
-                              child: Text(
-                                "My journey as a self-taught developer has been fueled by curiosity and innovation. Whether it's building AI-driven dating platforms like VCult or solving logistical inefficiencies with Wheel and Meal, I thrive on creating impactful applications that bridge technology and business. With expertise in Flutter, MongoDB, AI/ML, and backend systems, I specialize in developing scalable, user-centric solutions.",
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.lexend(
-                                  color: Colors
-                                      .white70, // Slightly muted color for readability
-                                  fontSize: 18,
-                                  height: 1.5, // Improve readability
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 20),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                GestureDetector(
-                                  onTap: () => html.window.open(
-                                      'https://www.linkedin.com/in/yogeshjaisankar/',
-                                      '_blank'),
-                                  child: Image.asset('assets/images/ln.png',
-                                      width: 30, height: 30),
-                                ),
-                                const SizedBox(
-                                    width: 20), // Spacing between icons
-                                GestureDetector(
-                                  onTap: () => html.window.open(
-                                      'https://github.com/Yogesh-Jaisankar',
-                                      '_blank'),
-                                  child: Image.asset('assets/images/git.png',
-                                      width: 40, height: 40),
-                                ),
-                                const SizedBox(width: 20),
-                                GestureDetector(
-                                  onTap: () => html.window.open(
-                                      'https://www.facebook.com/yogesh.jaisankar.9',
-                                      '_blank'),
-                                  child: Image.asset('assets/images/fb.png',
-                                      width: 30, height: 30),
-                                ),
-                                const SizedBox(width: 20),
-                                GestureDetector(
-                                  onTap: () => html.window.open(
-                                      'https://www.instagram.com/__yogesh_shankar/',
-                                      '_blank'),
-                                  child: Image.asset('assets/images/ig.png',
-                                      width: 30, height: 30),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
+                        },
+                      )),
                   _buildSection(_homeKey, Colors.black, "Home Section"),
                   _buildSection(_aboutKey, Colors.grey[900]!, "About Me"),
                   _buildSection(_skillsKey, Colors.grey[850]!, "Skills"),
