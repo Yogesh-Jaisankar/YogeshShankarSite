@@ -149,288 +149,687 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               controller: _scrollController,
               child: Column(
                 children: [
-                  Container(
-                      key: _homeKey,
-                      height: MediaQuery.of(context).size.height,
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(color: Colors.black),
-                      child: LayoutBuilder(
-                        builder: (context, constraints) {
-                          bool isMobile = constraints.maxWidth < 1000;
-                          return isMobile
-                              ? Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Stack(
-                                      alignment: Alignment.center,
-                                      children: [
-                                        // Static Amber Background
-                                        Container(
-                                          height: 310,
-                                          width: 310,
-                                          decoration: BoxDecoration(
-                                            color: Colors
-                                                .amberAccent, // Solid Amber Background
-                                            borderRadius:
-                                                BorderRadius.circular(320),
-                                          ),
-                                        ),
+                  LayoutBuilder(
+                    builder: (context, constraints) {
+                      double screenWidth = constraints.maxWidth;
+                      bool isMobile = screenWidth < 768;
+                      bool isTablet = screenWidth >= 768 && screenWidth < 1024;
 
-                                        // Static Profile Image
-                                        const CircleAvatar(
-                                          radius: 150,
-                                          backgroundImage: NetworkImage(
-                                            'https://raw.githubusercontent.com/Yogesh-Jaisankar/portfolio/main/assets/images/image.jpeg',
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(height: 40),
-                                    Shimmer.fromColors(
-                                      baseColor:
-                                          Colors.amberAccent.withOpacity(0.8),
-                                      highlightColor: Colors.grey.shade900,
-                                      period: const Duration(seconds: 5),
-                                      child: Text(
-                                        "Hello 👋🏻!, Myself\nYogesh Shankar",
-                                        textAlign: TextAlign.center,
-                                        style: GoogleFonts.lexend(
-                                          color: Colors.white,
-                                          fontSize: 40,
-                                          fontWeight: FontWeight.bold,
-                                          height: 1.3,
-                                        ),
+                      return Container(
+                        key: _homeKey,
+                        height: MediaQuery.of(context).size.height,
+                        width: MediaQuery.of(context).size.width,
+                        color: Colors.black,
+                        padding: EdgeInsets.symmetric(
+                            horizontal: isMobile ? 20 : 50),
+                        child: Flex(
+                          direction: isMobile ? Axis.vertical : Axis.horizontal,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              flex: isMobile ? 0 : 1,
+                              child: Center(
+                                child: Stack(
+                                  alignment: Alignment.center,
+                                  children: [
+                                    Container(
+                                      height: isMobile ? 250 : 310,
+                                      width: isMobile ? 250 : 310,
+                                      decoration: BoxDecoration(
+                                        color: Colors.amberAccent,
+                                        borderRadius:
+                                            BorderRadius.circular(320),
                                       ),
                                     ),
-                                    const SizedBox(height: 20),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        GestureDetector(
-                                          onTap: () => html.window.open(
-                                              'https://www.linkedin.com/in/yogeshjaisankar/',
-                                              '_blank'),
-                                          child: Image.asset(
-                                              'assets/images/ln.png',
-                                              width: 30,
-                                              height: 30),
-                                        ),
-                                        const SizedBox(width: 15),
-                                        GestureDetector(
-                                          onTap: () => html.window.open(
-                                              'https://github.com/Yogesh-Jaisankar',
-                                              '_blank'),
-                                          child: Image.asset(
-                                              'assets/images/git.png',
-                                              width: 40,
-                                              height: 40),
-                                        ),
-                                        const SizedBox(width: 15),
-                                        GestureDetector(
-                                          onTap: () => html.window.open(
-                                              'https://www.facebook.com/yogesh.jaisankar.9',
-                                              '_blank'),
-                                          child: Image.asset(
-                                              'assets/images/fb.png',
-                                              width: 30,
-                                              height: 30),
-                                        ),
-                                        const SizedBox(width: 15),
-                                        GestureDetector(
-                                          onTap: () => html.window.open(
-                                              'https://www.instagram.com/__yogesh_shankar/',
-                                              '_blank'),
-                                          child: Image.asset(
-                                              'assets/images/ig.png',
-                                              width: 30,
-                                              height: 30),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(height: 20),
-                                    GestureDetector(
-                                      onTap: _downloadCV,
-                                      child: Container(
-                                        height: 40,
-                                        width: 110,
-                                        decoration: BoxDecoration(
-                                            color: Colors.amber,
-                                            borderRadius:
-                                                BorderRadius.circular(10)),
-                                        child: Center(
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(
-                                              "Download CV",
-                                              style: GoogleFonts.lexend(
-                                                  color: Colors.black,
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                          ),
-                                        ),
+                                    CircleAvatar(
+                                      radius: isMobile ? 120 : 150,
+                                      backgroundImage: const NetworkImage(
+                                        'https://raw.githubusercontent.com/Yogesh-Jaisankar/portfolio/main/assets/images/image.jpeg',
                                       ),
                                     ),
                                   ],
-                                )
-                              : Row(
-                                  children: [
-                                    Stack(
-                                      alignment: Alignment.center,
-                                      children: [
-                                        // Static Amber Background
-                                        Container(
-                                          height: 310,
-                                          width: 310,
-                                          decoration: BoxDecoration(
-                                            color: Colors
-                                                .amberAccent, // Solid Amber Background
-                                            borderRadius:
-                                                BorderRadius.circular(320),
-                                          ),
-                                        ),
-
-                                        // Static Profile Image
-                                        const CircleAvatar(
-                                          radius: 150,
-                                          backgroundImage: NetworkImage(
-                                            'https://raw.githubusercontent.com/Yogesh-Jaisankar/portfolio/main/assets/images/image.jpeg',
-                                          ),
-                                        ),
-                                      ],
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                                width: isMobile ? 0 : 50,
+                                height: isMobile ? 40 : 0),
+                            Expanded(
+                              flex: isMobile ? 0 : 1,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Shimmer.fromColors(
+                                    baseColor:
+                                        Colors.amberAccent.withOpacity(0.8),
+                                    highlightColor: Colors.grey.shade900,
+                                    period: const Duration(seconds: 5),
+                                    child: Text(
+                                      "Hello 👋🏻!, Myself\nYogesh Shankar",
+                                      textAlign: TextAlign.center,
+                                      style: GoogleFonts.lexend(
+                                        color: Colors.white,
+                                        fontSize: isMobile ? 30 : 40,
+                                        fontWeight: FontWeight.bold,
+                                        height: 1.3,
+                                      ),
                                     ),
-                                    SizedBox(width: 100),
-                                    Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Shimmer.fromColors(
-                                          baseColor: Colors.amberAccent
-                                              .withOpacity(0.8),
-                                          highlightColor: Colors.grey.shade900,
-                                          period: const Duration(seconds: 5),
+                                  ),
+                                  const SizedBox(height: 20),
+                                  SizedBox(
+                                    width: isMobile ? 300 : 800,
+                                    child: Text(
+                                      "I thrive on creating impactful applications that bridge technology and business.With expertise in Flutter, MongoDB, AI/ML, and backend systems, I specialize in developing scalable, user-centric solutions.",
+                                      textAlign: TextAlign.center,
+                                      style: GoogleFonts.lexend(
+                                        color: Colors.white70,
+                                        fontSize: isMobile ? 16 : 18,
+                                        height: 1.5,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 20),
+                                  _buildSocialIcons(isMobile),
+                                  const SizedBox(height: 20),
+                                  GestureDetector(
+                                    onTap: _downloadCV,
+                                    child: Container(
+                                      height: 40,
+                                      width: 130,
+                                      decoration: BoxDecoration(
+                                        color: Colors.amber,
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: Center(
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
                                           child: Text(
-                                            "Hello 👋🏻!, Myself\nYogesh Shankar",
-                                            textAlign: TextAlign.center,
+                                            "Download CV",
                                             style: GoogleFonts.lexend(
-                                              color: Colors.white,
-                                              fontSize: 40,
+                                              color: Colors.black,
+                                              fontSize: 14,
                                               fontWeight: FontWeight.bold,
-                                              height: 1.3,
                                             ),
                                           ),
                                         ),
-                                        const SizedBox(height: 20),
-                                        SizedBox(
-                                          width: 800,
-                                          child: Text(
-                                            "My journey as a self-taught developer has been fueled by curiosity and innovation. Whether it's building AI-driven dating platforms like VCult or solving logistical inefficiencies with Wheel and Meal, I thrive on creating impactful applications that bridge technology and business. With expertise in Flutter, MongoDB, AI/ML, and backend systems, I specialize in developing scalable, user-centric solutions.",
-                                            textAlign: TextAlign.center,
-                                            style: GoogleFonts.lexend(
-                                              color: Colors.white70,
-                                              fontSize: 18,
-                                              height: 1.5,
-                                            ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                  LayoutBuilder(
+                    builder: (context, constraints) {
+                      bool isMobile =
+                          constraints.maxWidth < 800; // Responsive breakpoint
+                      return Container(
+                        key: _aboutKey,
+                        padding:
+                            EdgeInsets.symmetric(vertical: 40, horizontal: 20),
+                        width: double.infinity,
+                        color: Colors.grey[900], // Background color
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            // Heading at the Top (For Better Mobile View)
+                            Text(
+                              "EDUCATION",
+                              style: GoogleFonts.lexend(
+                                color: Colors.amberAccent,
+                                fontSize: 32,
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 1.5,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                            SizedBox(height: 20),
+
+                            // Adaptive Layout
+                            Flex(
+                              direction:
+                                  isMobile ? Axis.vertical : Axis.horizontal,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                // Lottie Animation
+                                Lottie.asset(
+                                  "assets/images/edi.json",
+                                  width: isMobile
+                                      ? 250
+                                      : 500, // Adjust size for mobile
+                                  height: isMobile ? 250 : 500,
+                                  fit: BoxFit.contain,
+                                ),
+                                SizedBox(width: 100),
+                                SizedBox(
+                                    height: isMobile ? 20 : 0,
+                                    width: isMobile ? 0 : 50),
+
+                                // Education Details
+                                Container(
+                                  width: isMobile ? double.infinity : 550,
+                                  padding: EdgeInsets.all(20),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white
+                                        .withOpacity(0.1), // Glassmorphism
+                                    borderRadius: BorderRadius.circular(20),
+                                    border: Border.all(
+                                        color: Colors.white.withOpacity(0.2)),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black26,
+                                        blurRadius: 10,
+                                        spreadRadius: 2,
+                                        offset: Offset(0, 4),
+                                      ),
+                                    ],
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      // Gradient Line
+                                      Container(
+                                        height: 5,
+                                        width: 100,
+                                        decoration: BoxDecoration(
+                                          gradient: LinearGradient(
+                                            colors: [
+                                              Colors.amberAccent,
+                                              Colors.deepOrange
+                                            ],
                                           ),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
                                         ),
-                                        const SizedBox(height: 20),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
+                                      ),
+                                      SizedBox(height: 15),
+
+                                      // Education Entries
+                                      _buildEducationTile(
+                                        "Integrated M.Tech in Computer Science & Engineering with Business Analytics",
+                                        "Vellore Institute of Technology (VIT), Chennai",
+                                        "Expected Graduation: 2026",
+                                      ),
+                                      _buildEducationTile(
+                                        "Grade 12 (CBSE)",
+                                        "Vailankanni Public School, Krishnagiri",
+                                        "82.4% | 2021",
+                                      ),
+                                      _buildEducationTile(
+                                        "Grade 10 (Matriculation)",
+                                        "Sri Vijay Vidyalaya Matric Higher Secondary School, Krishnagiri",
+                                        "87.6% | 2019",
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                  LayoutBuilder(
+                    builder: (context, constraints) {
+                      bool isMobile = constraints.maxWidth < 800;
+
+                      return Container(
+                        key: _skillsKey,
+                        padding:
+                            EdgeInsets.symmetric(vertical: 40, horizontal: 20),
+                        width: double.infinity,
+                        color: Colors.grey[900], // Background color
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            // 🏷 Heading
+                            Text(
+                              "SKILLS",
+                              style: GoogleFonts.lexend(
+                                color: Colors.amberAccent,
+                                fontSize: 32,
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 1.5,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                            SizedBox(height: 20),
+
+                            // 🔹 First Row: Lottie + Relevant Coursework
+                            isMobile
+                                ? Column(
+                                    children: [
+                                      Lottie.asset(
+                                        "assets/images/skills.json",
+                                        width: 500,
+                                        height: 500,
+                                        fit: BoxFit.contain,
+                                      ),
+                                      SizedBox(height: 20),
+                                      Container(
+                                        constraints: BoxConstraints(
+                                          maxWidth: isMobile
+                                              ? double.infinity
+                                              : 800, // Prevents stretching
+                                        ),
+                                        padding: EdgeInsets.all(20),
+                                        decoration: _glassmorphismStyle(),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
-                                            GestureDetector(
-                                              onTap: () => html.window.open(
-                                                  'https://www.linkedin.com/in/yogeshjaisankar/',
-                                                  '_blank'),
-                                              child: Image.asset(
-                                                  'assets/images/ln.png',
-                                                  width: 30,
-                                                  height: 30),
+                                            Text(
+                                              "Skills",
+                                              style: GoogleFonts.lexend(
+                                                color: Colors.amberAccent,
+                                                fontSize: 22,
+                                                fontWeight: FontWeight.bold,
+                                              ),
                                             ),
-                                            const SizedBox(width: 20),
-                                            GestureDetector(
-                                              onTap: () => html.window.open(
-                                                  'https://github.com/Yogesh-Jaisankar',
-                                                  '_blank'),
-                                              child: Image.asset(
-                                                  'assets/images/git.png',
-                                                  width: 40,
-                                                  height: 40),
-                                            ),
-                                            const SizedBox(width: 20),
-                                            GestureDetector(
-                                              onTap: () => html.window.open(
-                                                  'https://www.facebook.com/yogesh.jaisankar.9',
-                                                  '_blank'),
-                                              child: Image.asset(
-                                                  'assets/images/fb.png',
-                                                  width: 30,
-                                                  height: 30),
-                                            ),
-                                            const SizedBox(width: 20),
-                                            GestureDetector(
-                                              onTap: () => html.window.open(
-                                                  'https://www.instagram.com/__yogesh_shankar/',
-                                                  '_blank'),
-                                              child: Image.asset(
-                                                  'assets/images/ig.png',
-                                                  width: 30,
-                                                  height: 30),
+                                            SizedBox(height: 10),
+                                            Wrap(
+                                              spacing: 15,
+                                              runSpacing: 10,
+                                              alignment: WrapAlignment
+                                                  .center, // Center skills
+                                              children: [
+                                                _buildSkillChip(
+                                                    "Mobile App Development", [
+                                                  {
+                                                    "name": "Flutter",
+                                                    "icon":
+                                                        "assets/images/flutter.png"
+                                                  },
+                                                  {
+                                                    "name": "Dart",
+                                                    "icon":
+                                                        "assets/images/dart.png"
+                                                  },
+                                                  {
+                                                    "name": "Android (Kotlin)",
+                                                    "icon":
+                                                        "assets/images/kotlin.png"
+                                                  },
+                                                  {
+                                                    "name": "iOS (Swift)",
+                                                    "icon":
+                                                        "assets/images/swift.png"
+                                                  },
+                                                ]),
+                                                _buildSkillChip(
+                                                    "Programming Languages", [
+                                                  {
+                                                    "name": "Dart",
+                                                    "icon":
+                                                        "assets/images/dart.png"
+                                                  },
+                                                  {
+                                                    "name": "Python",
+                                                    "icon":
+                                                        "assets/images/python.png"
+                                                  },
+                                                  {
+                                                    "name": "Java",
+                                                    "icon":
+                                                        "assets/images/java.png"
+                                                  },
+                                                  {
+                                                    "name": "C",
+                                                    "icon":
+                                                        "assets/images/c.png"
+                                                  },
+                                                  {
+                                                    "name": "Kotlin",
+                                                    "icon":
+                                                        "assets/images/kotlin.png"
+                                                  },
+                                                  {
+                                                    "name": "JavaScript",
+                                                    "icon":
+                                                        "assets/images/js.png"
+                                                  },
+                                                  {
+                                                    "name": "SQL",
+                                                    "icon":
+                                                        "assets/images/sql.png"
+                                                  },
+                                                ]),
+                                                _buildSkillChip(
+                                                    "State Management", [
+                                                  {
+                                                    "name": "Provider",
+                                                    "icon":
+                                                        "assets/images/provider.png"
+                                                  },
+                                                  {
+                                                    "name": "Riverpod",
+                                                    "icon":
+                                                        "assets/images/riverpod.png"
+                                                  },
+                                                  {
+                                                    "name": "Bloc",
+                                                    "icon":
+                                                        "assets/images/bloc.png"
+                                                  },
+                                                ]),
+                                                _buildSkillChip(
+                                                    "Backend & API Integration",
+                                                    [
+                                                      {
+                                                        "name": "REST API",
+                                                        "icon":
+                                                            "assets/images/api.png"
+                                                      },
+                                                    ]),
+                                                _buildSkillChip(
+                                                    "Database Management", [
+                                                  {
+                                                    "name": "MongoDB",
+                                                    "icon":
+                                                        "assets/images/mongo.png"
+                                                  },
+                                                  {
+                                                    "name": "Firebase",
+                                                    "icon":
+                                                        "assets/images/firebase.png"
+                                                  },
+                                                ]),
+                                                _buildSkillChip(
+                                                    "Version Control", [
+                                                  {
+                                                    "name": "Git",
+                                                    "icon":
+                                                        "assets/images/gi.png"
+                                                  },
+                                                  {
+                                                    "name": "GitHub",
+                                                    "icon":
+                                                        "assets/images/git.png"
+                                                  },
+                                                ]),
+                                                _buildSkillChip(
+                                                    "Monetization & Analytics",
+                                                    [
+                                                      {
+                                                        "name": "AdMob",
+                                                        "icon":
+                                                            "assets/images/admob.png"
+                                                      },
+                                                      {
+                                                        "name":
+                                                            "In-App Purchases",
+                                                        "icon":
+                                                            "assets/images/ps.png"
+                                                      },
+                                                    ]),
+                                                _buildSkillChip(
+                                                    "Tools & IDEs", [
+                                                  {
+                                                    "name": "Jupyter Notebook",
+                                                    "icon":
+                                                        "assets/images/jupyter.png"
+                                                  },
+                                                  {
+                                                    "name": "PyCharm",
+                                                    "icon":
+                                                        "assets/images/il.png"
+                                                  },
+                                                  {
+                                                    "name": "IntelliJ IDEA",
+                                                    "icon":
+                                                        "assets/images/ij.png"
+                                                  },
+                                                  {
+                                                    "name": "Eclipse",
+                                                    "icon":
+                                                        "assets/images/ec.png"
+                                                  },
+                                                  {
+                                                    "name": "VS Code",
+                                                    "icon":
+                                                        "assets/images/vs.png"
+                                                  },
+                                                  {
+                                                    "name": "Android Studio",
+                                                    "icon":
+                                                        "assets/images/as.png"
+                                                  },
+                                                ]),
+                                              ],
                                             ),
                                           ],
                                         ),
-                                        const SizedBox(height: 20),
-                                        GestureDetector(
-                                          onTap: _downloadCV,
-                                          child: Container(
-                                            height: 40,
-                                            width: 110,
-                                            decoration: BoxDecoration(
-                                                color: Colors.amber,
-                                                borderRadius:
-                                                    BorderRadius.circular(10)),
-                                            child: Center(
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: Text(
-                                                  "Download CV",
-                                                  style: GoogleFonts.lexend(
-                                                      color: Colors.black,
-                                                      fontSize: 12,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
+                                      ),
+                                    ],
+                                  )
+                                : Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Lottie.asset(
+                                        "assets/images/skills.json",
+                                        width: 500,
+                                        height: 500,
+                                        fit: BoxFit.contain,
+                                      ),
+                                      SizedBox(width: 100),
+                                      Container(
+                                        constraints: BoxConstraints(
+                                          maxWidth: isMobile
+                                              ? double.infinity
+                                              : 800, // Prevents stretching
+                                        ),
+                                        padding: EdgeInsets.all(20),
+                                        decoration: _glassmorphismStyle(),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              "Skills",
+                                              style: GoogleFonts.lexend(
+                                                color: Colors.amberAccent,
+                                                fontSize: 22,
+                                                fontWeight: FontWeight.bold,
                                               ),
                                             ),
-                                          ),
+                                            SizedBox(height: 10),
+                                            Wrap(
+                                              spacing: 15,
+                                              runSpacing: 10,
+                                              alignment: WrapAlignment
+                                                  .center, // Center skills
+                                              children: [
+                                                _buildSkillChip(
+                                                    "Mobile App Development", [
+                                                  {
+                                                    "name": "Flutter",
+                                                    "icon":
+                                                        "assets/images/flutter.png"
+                                                  },
+                                                  {
+                                                    "name": "Dart",
+                                                    "icon":
+                                                        "assets/images/dart.png"
+                                                  },
+                                                  {
+                                                    "name": "Android (Kotlin)",
+                                                    "icon":
+                                                        "assets/images/kotlin.png"
+                                                  },
+                                                  {
+                                                    "name": "iOS (Swift)",
+                                                    "icon":
+                                                        "assets/images/swift.png"
+                                                  },
+                                                ]),
+                                                _buildSkillChip(
+                                                    "Programming Languages", [
+                                                  {
+                                                    "name": "Dart",
+                                                    "icon":
+                                                        "assets/images/dart.png"
+                                                  },
+                                                  {
+                                                    "name": "Python",
+                                                    "icon":
+                                                        "assets/images/python.png"
+                                                  },
+                                                  {
+                                                    "name": "Java",
+                                                    "icon":
+                                                        "assets/images/java.png"
+                                                  },
+                                                  {
+                                                    "name": "C",
+                                                    "icon":
+                                                        "assets/images/c.png"
+                                                  },
+                                                  {
+                                                    "name": "Kotlin",
+                                                    "icon":
+                                                        "assets/images/kotlin.png"
+                                                  },
+                                                  {
+                                                    "name": "JavaScript",
+                                                    "icon":
+                                                        "assets/images/js.png"
+                                                  },
+                                                  {
+                                                    "name": "SQL",
+                                                    "icon":
+                                                        "assets/images/sql.png"
+                                                  },
+                                                ]),
+                                                _buildSkillChip(
+                                                    "State Management", [
+                                                  {
+                                                    "name": "Provider",
+                                                    "icon":
+                                                        "assets/images/provider.png"
+                                                  },
+                                                  {
+                                                    "name": "Riverpod",
+                                                    "icon":
+                                                        "assets/images/riverpod.png"
+                                                  },
+                                                  {
+                                                    "name": "Bloc",
+                                                    "icon":
+                                                        "assets/images/bloc.png"
+                                                  },
+                                                ]),
+                                                _buildSkillChip(
+                                                    "Backend & API Integration",
+                                                    [
+                                                      {
+                                                        "name": "REST API",
+                                                        "icon":
+                                                            "assets/images/api.png"
+                                                      },
+                                                    ]),
+                                                _buildSkillChip(
+                                                    "Database Management", [
+                                                  {
+                                                    "name": "MongoDB",
+                                                    "icon":
+                                                        "assets/images/mongo.png"
+                                                  },
+                                                  {
+                                                    "name": "Firebase",
+                                                    "icon":
+                                                        "assets/images/firebase.png"
+                                                  },
+                                                ]),
+                                                _buildSkillChip(
+                                                    "Version Control", [
+                                                  {
+                                                    "name": "Git",
+                                                    "icon":
+                                                        "assets/images/gi.png"
+                                                  },
+                                                  {
+                                                    "name": "GitHub",
+                                                    "icon":
+                                                        "assets/images/git.png"
+                                                  },
+                                                ]),
+                                                _buildSkillChip(
+                                                    "Monetization & Analytics",
+                                                    [
+                                                      {
+                                                        "name": "AdMob",
+                                                        "icon":
+                                                            "assets/images/admob.png"
+                                                      },
+                                                      {
+                                                        "name":
+                                                            "In-App Purchases",
+                                                        "icon":
+                                                            "assets/images/ps.png"
+                                                      },
+                                                    ]),
+                                                _buildSkillChip(
+                                                    "Tools & IDEs", [
+                                                  {
+                                                    "name": "Jupyter Notebook",
+                                                    "icon":
+                                                        "assets/images/jupyter.png"
+                                                  },
+                                                  {
+                                                    "name": "PyCharm",
+                                                    "icon":
+                                                        "assets/images/il.png"
+                                                  },
+                                                  {
+                                                    "name": "IntelliJ IDEA",
+                                                    "icon":
+                                                        "assets/images/ij.png"
+                                                  },
+                                                  {
+                                                    "name": "Eclipse",
+                                                    "icon":
+                                                        "assets/images/ec.png"
+                                                  },
+                                                  {
+                                                    "name": "VS Code",
+                                                    "icon":
+                                                        "assets/images/vs.png"
+                                                  },
+                                                  {
+                                                    "name": "Android Studio",
+                                                    "icon":
+                                                        "assets/images/as.png"
+                                                  },
+                                                ]),
+                                              ],
+                                            ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
-                                  ],
-                                );
-                        },
-                      )),
-                  Container(
-                    height: 600,
-                    width: double.infinity, // Full-width
-                    color: Colors.yellow, // Background color
-                    child: Center(
-                      // Centers the Lottie animation
-                      child: Lottie.asset(
-                        "assets/images/edi.json",
-                        width: 400, // Adjust width for responsiveness
-                        height: 400, // Adjust height accordingly
-                        fit: BoxFit.contain, // Ensures proper scaling
-                      ),
-                    ),
+                                      ),
+                                    ],
+                                  ),
+
+                            SizedBox(height: 30),
+
+                            // 🔥 Second Section: Skills Container
+                          ],
+                        ),
+                      );
+                    },
                   ),
-                  _buildSection(_aboutKey, Colors.grey[900]!, "About Me"),
-                  _buildSection(_skillsKey, Colors.grey[850]!, "Skills"),
                   _buildSection(_projectsKey, Colors.grey[800]!, "Projects"),
                   _buildSection(_contactKey, Colors.grey[800]!, "Contaxt Me"),
                   Container(
@@ -486,6 +885,192 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                   )
                 ],
               ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildRelevantCoursework() {
+    return Container(
+      width: 400,
+      padding: EdgeInsets.all(20),
+      decoration: _glassmorphismStyle(),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Relevant Coursework",
+            style: GoogleFonts.lexend(
+              color: Colors.amberAccent,
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          SizedBox(height: 10),
+          ...[
+            "Software Engineering",
+            "Database Management Systems",
+            "Data Structures & Algorithms",
+            "Design & Analysis of Algorithms",
+            "Machine Learning",
+            "Deep Learning",
+            "NoSQL Databases",
+          ].map((course) => Padding(
+                padding: const EdgeInsets.symmetric(vertical: 4),
+                child: Text(
+                  "• $course",
+                  style: GoogleFonts.lexend(
+                    color: Colors.white70,
+                    fontSize: 16,
+                  ),
+                ),
+              )),
+        ],
+      ),
+    );
+  }
+
+  // Glassmorphism Style Function
+  BoxDecoration _glassmorphismStyle() {
+    return BoxDecoration(
+      color: Colors.white.withOpacity(0.1),
+      borderRadius: BorderRadius.circular(20),
+      border: Border.all(color: Colors.white.withOpacity(0.2)),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.black26,
+          blurRadius: 10,
+          spreadRadius: 2,
+          offset: Offset(0, 4),
+        ),
+      ],
+    );
+  }
+
+// Skill Chip Widget
+  Widget _buildSkillChip(String title, List<Map<String, String>> skills) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        // 🔹 Title
+        Text(
+          title,
+          style: GoogleFonts.lexend(
+            color: Colors.amberAccent,
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        SizedBox(height: 8),
+
+        // 🔥 Custom Skill Display (Replaces Chips)
+        Wrap(
+          spacing: 12,
+          runSpacing: 10,
+          children: skills
+              .map((skill) => Container(
+                    padding: EdgeInsets.symmetric(vertical: 6, horizontal: 10),
+                    decoration: BoxDecoration(
+                      color: Colors.grey[850],
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black26,
+                          blurRadius: 4,
+                          offset: Offset(2, 2),
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Image.asset(
+                          skill['icon']!, // 🔥 Load PNG Icon
+                          width: 20,
+                          height: 20,
+                          fit: BoxFit.contain,
+                        ),
+                        SizedBox(width: 8),
+                        Text(
+                          skill['name']!,
+                          style: GoogleFonts.lexend(
+                            color: Colors.white,
+                            fontSize: 14,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ))
+              .toList(),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSocialIcons(bool isMobile) {
+    return Wrap(
+      spacing: isMobile ? 12 : 20,
+      runSpacing: isMobile ? 12 : 0,
+      alignment: WrapAlignment.center,
+      children: [
+        GestureDetector(
+          onTap: () => html.window
+              .open('https://www.linkedin.com/in/yogeshjaisankar/', '_blank'),
+          child: Image.asset('assets/images/ln.png',
+              width: isMobile ? 25 : 30, height: isMobile ? 25 : 30),
+        ),
+        GestureDetector(
+          onTap: () =>
+              html.window.open('https://github.com/Yogesh-Jaisankar', '_blank'),
+          child: Image.asset('assets/images/git.png',
+              width: isMobile ? 35 : 40, height: isMobile ? 35 : 40),
+        ),
+        GestureDetector(
+          onTap: () => html.window
+              .open('https://www.facebook.com/yogesh.jaisankar.9', '_blank'),
+          child: Image.asset('assets/images/fb.png',
+              width: isMobile ? 25 : 30, height: isMobile ? 25 : 30),
+        ),
+        GestureDetector(
+          onTap: () => html.window
+              .open('https://www.instagram.com/__yogesh_shankar/', '_blank'),
+          child: Image.asset('assets/images/ig.png',
+              width: isMobile ? 25 : 30, height: isMobile ? 25 : 30),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildEducationTile(String title, String institute, String details) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 15),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "📌 $title",
+            style: GoogleFonts.lexend(
+              color: Colors.white,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Text(
+            institute,
+            style: GoogleFonts.lexend(
+              color: Colors.white70,
+              fontSize: 16,
+            ),
+          ),
+          Text(
+            details,
+            style: GoogleFonts.lexend(
+              color: Colors.amberAccent,
+              fontSize: 14,
+              fontStyle: FontStyle.italic,
             ),
           ),
         ],
