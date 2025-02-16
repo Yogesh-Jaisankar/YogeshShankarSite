@@ -1,8 +1,9 @@
 import 'dart:html' as html;
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
+import 'package:shimmer/shimmer.dart';
 
 void main() {
   runApp(const MyApp());
@@ -94,7 +95,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.amber,
       drawer: _buildDrawer(), // Side navigation drawer
       body: Column(
         children: [
@@ -104,11 +105,22 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Row(
               children: [
-                Text("Yogesh Jaisankar",
+                Text("P O R T F O L I O",
                     style: GoogleFonts.lexend(
-                        fontSize: 30,
+                        fontSize: 25,
                         color: Colors.black,
                         fontWeight: FontWeight.bold)),
+                SizedBox(width: 10),
+                Shimmer.fromColors(
+                  baseColor: Colors.black,
+                  highlightColor: Colors.amberAccent,
+                  period: const Duration(seconds: 2),
+                  child: Icon(
+                    Icons.terminal, // Replace with your desired icon
+                    size: 30, // Adjust the size as needed
+                    color: Colors.amber, // Optional, shimmer will override this
+                  ),
+                ),
                 const Spacer(),
                 if (MediaQuery.of(context).size.width >=
                     900) // Show full navbar on large screens
@@ -119,28 +131,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                       _navItem("Skills", _skillsKey),
                       _navItem("Projects", _projectsKey),
                       _navItem("Contact", _contactKey),
-                      GestureDetector(
-                        onTap: _downloadCV,
-                        child: Container(
-                          height: 40,
-                          width: 110,
-                          decoration: BoxDecoration(
-                              color: Colors.black,
-                              borderRadius: BorderRadius.circular(10)),
-                          child: Center(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                "Download CV",
-                                style: GoogleFonts.lexend(
-                                    color: Colors.amber,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
                     ],
                   ),
                 if (MediaQuery.of(context).size.width <
@@ -160,14 +150,13 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               child: Column(
                 children: [
                   Container(
-                      height:
-                          MediaQuery.of(context).size.height < 900 ? 800 : 700,
+                      key: _homeKey,
+                      height: MediaQuery.of(context).size.height,
                       width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(color: Colors.black),
                       child: LayoutBuilder(
                         builder: (context, constraints) {
-                          bool isMobile = constraints.maxWidth < 720;
-
+                          bool isMobile = constraints.maxWidth < 1000;
                           return isMobile
                               ? Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -176,94 +165,41 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                     Stack(
                                       alignment: Alignment.center,
                                       children: [
-                                        // Animated Blurred Background Glow
-                                        AnimatedBuilder(
-                                          animation: _controller,
-                                          builder: (context, child) {
-                                            return ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(460),
-                                              child: BackdropFilter(
-                                                filter: ImageFilter.blur(
-                                                  sigmaX: _blurAnimation.value,
-                                                  sigmaY: _blurAnimation.value,
-                                                ),
-                                                child: Container(
-                                                  height: 320,
-                                                  width: 320,
-                                                  decoration: BoxDecoration(
-                                                    gradient: RadialGradient(
-                                                      colors: [
-                                                        Color.fromRGBO(
-                                                            218, 112, 214, 0.6),
-                                                        Color.fromRGBO(
-                                                            75, 0, 130, 0.3),
-                                                      ],
-                                                      stops: [0.3, 1.0],
-                                                      radius:
-                                                          _glowAnimation.value,
-                                                    ),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            320),
-                                                  ),
-                                                ),
-                                              ),
-                                            );
-                                          },
+                                        // Static Amber Background
+                                        Container(
+                                          height: 310,
+                                          width: 310,
+                                          decoration: BoxDecoration(
+                                            color: Colors
+                                                .amberAccent, // Solid Amber Background
+                                            borderRadius:
+                                                BorderRadius.circular(320),
+                                          ),
                                         ),
 
-                                        // Animated Avatar Glow
-                                        AnimatedBuilder(
-                                          animation: _controller,
-                                          builder: (context, child) {
-                                            return Container(
-                                              decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                gradient: RadialGradient(
-                                                  colors: [
-                                                    Color.fromRGBO(
-                                                        218, 112, 214, 1),
-                                                    Color.fromRGBO(
-                                                        75, 0, 130, 1),
-                                                  ],
-                                                  stops: [0.4, 1.0],
-                                                  radius: _glowAnimation.value,
-                                                ),
-                                              ),
-                                              child: const CircleAvatar(
-                                                radius: 150,
-                                                backgroundImage: NetworkImage(
-                                                  'https://raw.githubusercontent.com/Yogesh-Jaisankar/portfolio/main/assets/images/image.jpeg',
-                                                ),
-                                              ),
-                                            );
-                                          },
+                                        // Static Profile Image
+                                        const CircleAvatar(
+                                          radius: 150,
+                                          backgroundImage: NetworkImage(
+                                            'https://raw.githubusercontent.com/Yogesh-Jaisankar/portfolio/main/assets/images/image.jpeg',
+                                          ),
                                         ),
                                       ],
                                     ),
                                     const SizedBox(height: 40),
-                                    Text(
-                                      "Hello 👋🏻!, Myself\nYOGESH JAISANKAR",
-                                      textAlign: TextAlign.center,
-                                      style: GoogleFonts.lexend(
-                                        color: Colors.white,
-                                        fontSize: 40,
-                                        fontWeight: FontWeight.bold,
-                                        height: 1.3,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 20),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 20),
+                                    Shimmer.fromColors(
+                                      baseColor:
+                                          Colors.amberAccent.withOpacity(0.8),
+                                      highlightColor: Colors.grey.shade900,
+                                      period: const Duration(seconds: 5),
                                       child: Text(
-                                        "My journey as a self-taught developer has been fueled by curiosity and innovation. Whether it's building AI-driven dating platforms like VCult or solving logistical inefficiencies with Wheel and Meal, I thrive on creating impactful applications that bridge technology and business. With expertise in Flutter, MongoDB, AI/ML, and backend systems, I specialize in developing scalable, user-centric solutions.",
+                                        "Hello 👋🏻!, Myself\nYogesh Shankar",
                                         textAlign: TextAlign.center,
                                         style: GoogleFonts.lexend(
-                                          color: Colors.white70,
-                                          fontSize: 16,
-                                          height: 1.5,
+                                          color: Colors.white,
+                                          fontSize: 40,
+                                          fontWeight: FontWeight.bold,
+                                          height: 1.3,
                                         ),
                                       ),
                                     ),
@@ -313,6 +249,30 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                         ),
                                       ],
                                     ),
+                                    const SizedBox(height: 20),
+                                    GestureDetector(
+                                      onTap: _downloadCV,
+                                      child: Container(
+                                        height: 40,
+                                        width: 110,
+                                        decoration: BoxDecoration(
+                                            color: Colors.amber,
+                                            borderRadius:
+                                                BorderRadius.circular(10)),
+                                        child: Center(
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              "Download CV",
+                                              style: GoogleFonts.lexend(
+                                                  color: Colors.black,
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
                                   ],
                                 )
                               : Row(
@@ -320,69 +280,24 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                     Stack(
                                       alignment: Alignment.center,
                                       children: [
-                                        // Animated Blurred Background Glow
-                                        AnimatedBuilder(
-                                          animation: _controller,
-                                          builder: (context, child) {
-                                            return ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(460),
-                                              child: BackdropFilter(
-                                                filter: ImageFilter.blur(
-                                                  sigmaX: _blurAnimation.value,
-                                                  sigmaY: _blurAnimation.value,
-                                                ),
-                                                child: Container(
-                                                  height: 420,
-                                                  width: 420,
-                                                  decoration: BoxDecoration(
-                                                    gradient: RadialGradient(
-                                                      colors: [
-                                                        Color.fromRGBO(
-                                                            218, 112, 214, 0.6),
-                                                        Color.fromRGBO(
-                                                            75, 0, 130, 0.3),
-                                                      ],
-                                                      stops: [0.3, 1.0],
-                                                      radius:
-                                                          _glowAnimation.value,
-                                                    ),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            420),
-                                                  ),
-                                                ),
-                                              ),
-                                            );
-                                          },
+                                        // Static Amber Background
+                                        Container(
+                                          height: 310,
+                                          width: 310,
+                                          decoration: BoxDecoration(
+                                            color: Colors
+                                                .amberAccent, // Solid Amber Background
+                                            borderRadius:
+                                                BorderRadius.circular(320),
+                                          ),
                                         ),
 
-                                        // Animated Avatar Glow
-                                        AnimatedBuilder(
-                                          animation: _controller,
-                                          builder: (context, child) {
-                                            return Container(
-                                              decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                gradient: RadialGradient(
-                                                  colors: [
-                                                    Color.fromRGBO(
-                                                        218, 112, 214, 1),
-                                                    Color.fromRGBO(
-                                                        75, 0, 130, 1),
-                                                  ],
-                                                  stops: [0.4, 1.0],
-                                                  radius: _glowAnimation.value,
-                                                ),
-                                              ),
-                                              child: const CircleAvatar(
-                                                radius: 200,
-                                                backgroundImage: NetworkImage(
-                                                  'https://raw.githubusercontent.com/Yogesh-Jaisankar/portfolio/main/assets/images/image.jpeg',
-                                                ),
-                                              ),
-                                            );
-                                          },
+                                        // Static Profile Image
+                                        const CircleAvatar(
+                                          radius: 150,
+                                          backgroundImage: NetworkImage(
+                                            'https://raw.githubusercontent.com/Yogesh-Jaisankar/portfolio/main/assets/images/image.jpeg',
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -393,14 +308,20 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,
                                       children: [
-                                        Text(
-                                          "Hello 👋🏻!, Myself\nYOGESH JAISANKAR",
-                                          textAlign: TextAlign.center,
-                                          style: GoogleFonts.lexend(
-                                            color: Colors.white,
-                                            fontSize: 50,
-                                            fontWeight: FontWeight.bold,
-                                            height: 1.3,
+                                        Shimmer.fromColors(
+                                          baseColor: Colors.amberAccent
+                                              .withOpacity(0.8),
+                                          highlightColor: Colors.grey.shade900,
+                                          period: const Duration(seconds: 5),
+                                          child: Text(
+                                            "Hello 👋🏻!, Myself\nYogesh Shankar",
+                                            textAlign: TextAlign.center,
+                                            style: GoogleFonts.lexend(
+                                              color: Colors.white,
+                                              fontSize: 40,
+                                              fontWeight: FontWeight.bold,
+                                              height: 1.3,
+                                            ),
                                           ),
                                         ),
                                         const SizedBox(height: 20),
@@ -462,19 +383,58 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                             ),
                                           ],
                                         ),
+                                        const SizedBox(height: 20),
+                                        GestureDetector(
+                                          onTap: _downloadCV,
+                                          child: Container(
+                                            height: 40,
+                                            width: 110,
+                                            decoration: BoxDecoration(
+                                                color: Colors.amber,
+                                                borderRadius:
+                                                    BorderRadius.circular(10)),
+                                            child: Center(
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Text(
+                                                  "Download CV",
+                                                  style: GoogleFonts.lexend(
+                                                      color: Colors.black,
+                                                      fontSize: 12,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
                                       ],
                                     ),
                                   ],
                                 );
                         },
                       )),
-                  _buildSection(_homeKey, Colors.black, "Home Section"),
+                  Container(
+                    height: 600,
+                    width: double.infinity, // Full-width
+                    color: Colors.yellow, // Background color
+                    child: Center(
+                      // Centers the Lottie animation
+                      child: Lottie.asset(
+                        "assets/images/edi.json",
+                        width: 400, // Adjust width for responsiveness
+                        height: 400, // Adjust height accordingly
+                        fit: BoxFit.contain, // Ensures proper scaling
+                      ),
+                    ),
+                  ),
                   _buildSection(_aboutKey, Colors.grey[900]!, "About Me"),
                   _buildSection(_skillsKey, Colors.grey[850]!, "Skills"),
                   _buildSection(_projectsKey, Colors.grey[800]!, "Projects"),
                   _buildSection(_contactKey, Colors.grey[800]!, "Contaxt Me"),
                   Container(
-                    height: 80,
+                    height: 100,
                     width: double.infinity,
                     decoration: const BoxDecoration(color: Colors.black),
                     child: Column(
