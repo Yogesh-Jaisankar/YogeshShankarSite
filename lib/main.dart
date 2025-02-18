@@ -152,13 +152,26 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                   LayoutBuilder(
                     builder: (context, constraints) {
                       double screenWidth = constraints.maxWidth;
-                      bool isMobile = screenWidth < 768;
-                      bool isTablet = screenWidth >= 768 && screenWidth < 1024;
+                      double screenHeight = MediaQuery.of(context).size.height;
+                      bool isMobile = screenWidth < 600;
+                      bool isTablet = screenWidth >= 600 && screenWidth < 1024;
+                      double avatarRadius =
+                          isMobile ? screenWidth * 0.3 : screenWidth * 0.15;
+                      double textSize = isMobile
+                          ? 28
+                          : isTablet
+                              ? 34
+                              : 42;
+                      double bodyTextSize = isMobile
+                          ? 14
+                          : isTablet
+                              ? 16
+                              : 18;
 
                       return Container(
                         key: _homeKey,
-                        height: MediaQuery.of(context).size.height,
-                        width: MediaQuery.of(context).size.width,
+                        height: screenHeight,
+                        width: screenWidth,
                         color: Colors.black,
                         padding: EdgeInsets.symmetric(
                             horizontal: isMobile ? 20 : 50),
@@ -174,8 +187,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                   alignment: Alignment.center,
                                   children: [
                                     Container(
-                                      height: isMobile ? 250 : 310,
-                                      width: isMobile ? 250 : 310,
+                                      height: avatarRadius * 2,
+                                      width: avatarRadius * 2,
                                       decoration: BoxDecoration(
                                         color: Colors.amberAccent,
                                         borderRadius:
@@ -183,7 +196,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                       ),
                                     ),
                                     CircleAvatar(
-                                      radius: isMobile ? 120 : 150,
+                                      radius: avatarRadius,
                                       backgroundImage: const NetworkImage(
                                         'https://raw.githubusercontent.com/Yogesh-Jaisankar/portfolio/main/assets/images/image.jpeg',
                                       ),
@@ -211,7 +224,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                       textAlign: TextAlign.center,
                                       style: GoogleFonts.lexend(
                                         color: Colors.white,
-                                        fontSize: isMobile ? 30 : 40,
+                                        fontSize: textSize,
                                         fontWeight: FontWeight.bold,
                                         height: 1.3,
                                       ),
@@ -219,13 +232,13 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                   ),
                                   const SizedBox(height: 20),
                                   SizedBox(
-                                    width: isMobile ? 300 : 800,
+                                    width: screenWidth * (isMobile ? 0.8 : 0.6),
                                     child: Text(
-                                      "I thrive on creating impactful applications that bridge technology and business.With expertise in Flutter, MongoDB, AI/ML, and backend systems, I specialize in developing scalable, user-centric solutions.",
+                                      "I thrive on creating impactful applications that bridge technology and business. With expertise in Flutter, MongoDB, AI/ML, and backend systems, I specialize in developing scalable, user-centric solutions.",
                                       textAlign: TextAlign.center,
                                       style: GoogleFonts.lexend(
                                         color: Colors.white70,
-                                        fontSize: isMobile ? 16 : 18,
+                                        fontSize: bodyTextSize,
                                         height: 1.5,
                                       ),
                                     ),
@@ -267,59 +280,73 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                   ),
                   LayoutBuilder(
                     builder: (context, constraints) {
-                      bool isMobile =
-                          constraints.maxWidth < 800; // Responsive breakpoint
+                      double screenWidth = constraints.maxWidth;
+                      bool isSmallScreen = screenWidth <
+                          1450; // Switch to column if width < 1450px
+
+                      // Dynamic Text & Icon Sizes
+                      double headingSize = isSmallScreen ? 32 : 38;
+                      double titleSize = isSmallScreen ? 20 : 24;
+                      double subtitleSize = isSmallScreen ? 16 : 20;
+
+                      // Animation size
+                      double lottieSize = isSmallScreen ? 300 : 500;
+
                       return Container(
                         key: _aboutKey,
-                        padding:
-                            EdgeInsets.symmetric(vertical: 40, horizontal: 20),
+                        padding: EdgeInsets.symmetric(
+                          vertical: isSmallScreen ? 30 : 50,
+                          horizontal: isSmallScreen ? 20 : 50,
+                        ),
                         width: double.infinity,
-                        color: Colors.grey[900], // Background color
+                        color: Colors.black, // Background color
                         child: Column(
-                          mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            // Heading at the Top (For Better Mobile View)
+                            // Heading
                             Text(
                               "EDUCATION",
                               style: GoogleFonts.lexend(
                                 color: Colors.amberAccent,
-                                fontSize: 32,
+                                fontSize: headingSize,
                                 fontWeight: FontWeight.bold,
                                 letterSpacing: 1.5,
                               ),
                               textAlign: TextAlign.center,
                             ),
-                            SizedBox(height: 20),
+                            const SizedBox(height: 20),
 
-                            // Adaptive Layout
+                            // Adaptive Layout: Row for large screens, Column for smaller screens
                             Flex(
-                              direction:
-                                  isMobile ? Axis.vertical : Axis.horizontal,
+                              direction: isSmallScreen
+                                  ? Axis.vertical
+                                  : Axis.horizontal,
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 // Lottie Animation
                                 Lottie.asset(
                                   "assets/images/edi.json",
-                                  width: isMobile
-                                      ? 250
-                                      : 500, // Adjust size for mobile
-                                  height: isMobile ? 250 : 500,
+                                  width: lottieSize,
+                                  height: lottieSize,
                                   fit: BoxFit.contain,
                                 ),
-                                SizedBox(width: 100),
-                                SizedBox(
-                                    height: isMobile ? 20 : 0,
-                                    width: isMobile ? 0 : 50),
+
+                                if (!isSmallScreen)
+                                  const SizedBox(
+                                      width: 50), // Spacing for row layout
+                                if (isSmallScreen)
+                                  const SizedBox(
+                                      height: 20), // Spacing for column layout
 
                                 // Education Details
                                 Container(
-                                  width: isMobile ? double.infinity : 550,
-                                  padding: EdgeInsets.all(20),
+                                  width: isSmallScreen ? double.infinity : 600,
+                                  padding:
+                                      EdgeInsets.all(isSmallScreen ? 15 : 20),
                                   decoration: BoxDecoration(
-                                    color: Colors.white
-                                        .withOpacity(0.1), // Glassmorphism
+                                    color: Colors.white.withOpacity(
+                                        0.1), // Glassmorphism effect
                                     borderRadius: BorderRadius.circular(20),
                                     border: Border.all(
                                         color: Colors.white.withOpacity(0.2)),
@@ -351,23 +378,29 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                               BorderRadius.circular(10),
                                         ),
                                       ),
-                                      SizedBox(height: 15),
+                                      const SizedBox(height: 15),
 
                                       // Education Entries
                                       _buildEducationTile(
                                         "Integrated M.Tech in Computer Science & Engineering with Business Analytics",
                                         "Vellore Institute of Technology (VIT), Chennai",
                                         "Expected Graduation: 2026",
+                                        titleSize,
+                                        subtitleSize,
                                       ),
                                       _buildEducationTile(
                                         "Grade 12 (CBSE)",
                                         "Vailankanni Public School, Krishnagiri",
                                         "82.4% | 2021",
+                                        titleSize,
+                                        subtitleSize,
                                       ),
                                       _buildEducationTile(
                                         "Grade 10 (Matriculation)",
                                         "Sri Vijay Vidyalaya Matric Higher Secondary School, Krishnagiri",
                                         "87.6% | 2019",
+                                        titleSize,
+                                        subtitleSize,
                                       ),
                                     ],
                                   ),
@@ -381,14 +414,14 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                   ),
                   LayoutBuilder(
                     builder: (context, constraints) {
-                      bool isMobile = constraints.maxWidth < 800;
+                      bool isMobile = constraints.maxWidth < 1450;
 
                       return Container(
                         key: _skillsKey,
                         padding:
                             EdgeInsets.symmetric(vertical: 40, horizontal: 20),
                         width: double.infinity,
-                        color: Colors.grey[900], // Background color
+                        color: Colors.black, // Background color
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -406,7 +439,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                             ),
                             SizedBox(height: 20),
 
-                            // 🔹 First Row: Lottie + Relevant Coursework
+                            // 🔹 Skills Section (with Lottie)
                             isMobile
                                 ? Column(
                                     children: [
@@ -419,9 +452,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                       SizedBox(height: 20),
                                       Container(
                                         constraints: BoxConstraints(
-                                          maxWidth: isMobile
-                                              ? double.infinity
-                                              : 800, // Prevents stretching
+                                          maxWidth:
+                                              isMobile ? double.infinity : 800,
                                         ),
                                         padding: EdgeInsets.all(20),
                                         decoration: _glassmorphismStyle(),
@@ -627,9 +659,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                       SizedBox(width: 100),
                                       Container(
                                         constraints: BoxConstraints(
-                                          maxWidth: isMobile
-                                              ? double.infinity
-                                              : 800, // Prevents stretching
+                                          maxWidth:
+                                              isMobile ? double.infinity : 800,
                                         ),
                                         padding: EdgeInsets.all(20),
                                         decoration: _glassmorphismStyle(),
@@ -823,7 +854,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                   ),
 
                             SizedBox(height: 30),
-
                             // 🔥 Second Section: Skills Container
                           ],
                         ),
@@ -831,7 +861,70 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                     },
                   ),
                   _buildSection(_projectsKey, Colors.grey[800]!, "Projects"),
-                  _buildSection(_contactKey, Colors.grey[800]!, "Contaxt Me"),
+                  LayoutBuilder(
+                    builder: (context, constraints) {
+                      double fieldWidth = constraints.maxWidth > 600
+                          ? 550
+                          : constraints.maxWidth * 0.8;
+                      bool isSmallScreen = constraints.maxWidth <= 600;
+
+                      return Container(
+                        key: _contactKey,
+                        height: 700,
+                        width: constraints.maxWidth,
+                        decoration: BoxDecoration(color: Colors.black),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Contact Me",
+                              style: GoogleFonts.lexend(
+                                color: Colors.amber,
+                                fontSize: 32,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.all(10.0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  isSmallScreen
+                                      ? Column(
+                                          children: [
+                                            _buildTextField(
+                                                "First Name", fieldWidth),
+                                            SizedBox(height: 15),
+                                            _buildTextField(
+                                                "Last Name", fieldWidth),
+                                          ],
+                                        )
+                                      : Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            _buildTextField("First Name", 250),
+                                            SizedBox(width: 25),
+                                            _buildTextField("Last Name", 250),
+                                          ],
+                                        ),
+                                  SizedBox(height: 15),
+                                  _buildTextField("Phone Number", fieldWidth),
+                                  SizedBox(height: 15),
+                                  _buildTextField("Email ID", fieldWidth),
+                                  SizedBox(height: 15),
+                                  _buildTextField("Message", fieldWidth,
+                                      maxLines: 6),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
                   Container(
                     height: 100,
                     width: double.infinity,
@@ -892,42 +985,26 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     );
   }
 
-  Widget _buildRelevantCoursework() {
-    return Container(
-      width: 400,
-      padding: EdgeInsets.all(20),
-      decoration: _glassmorphismStyle(),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "Relevant Coursework",
-            style: GoogleFonts.lexend(
-              color: Colors.amberAccent,
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
+  Widget _buildTextField(String hint, double width, {int maxLines = 1}) {
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Container(
+        width: width,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: Colors.amber, width: 3),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: TextField(
+            decoration: InputDecoration(
+              hintText: hint,
+              border: InputBorder.none,
             ),
+            maxLines: maxLines,
           ),
-          SizedBox(height: 10),
-          ...[
-            "Software Engineering",
-            "Database Management Systems",
-            "Data Structures & Algorithms",
-            "Design & Analysis of Algorithms",
-            "Machine Learning",
-            "Deep Learning",
-            "NoSQL Databases",
-          ].map((course) => Padding(
-                padding: const EdgeInsets.symmetric(vertical: 4),
-                child: Text(
-                  "• $course",
-                  style: GoogleFonts.lexend(
-                    color: Colors.white70,
-                    fontSize: 16,
-                  ),
-                ),
-              )),
-        ],
+        ),
       ),
     );
   }
@@ -1044,33 +1121,35 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     );
   }
 
-  Widget _buildEducationTile(String title, String institute, String details) {
+  Widget _buildEducationTile(String degree, String institution, String year,
+      double titleSize, double subtitleSize) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 15),
+      padding: const EdgeInsets.only(bottom: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "📌 $title",
+            degree,
             style: GoogleFonts.lexend(
               color: Colors.white,
-              fontSize: 20,
+              fontSize: titleSize,
               fontWeight: FontWeight.bold,
             ),
           ),
+          const SizedBox(height: 5),
           Text(
-            institute,
+            institution,
             style: GoogleFonts.lexend(
               color: Colors.white70,
-              fontSize: 16,
+              fontSize: subtitleSize,
             ),
           ),
+          const SizedBox(height: 5),
           Text(
-            details,
+            year,
             style: GoogleFonts.lexend(
-              color: Colors.amberAccent,
-              fontSize: 14,
-              fontStyle: FontStyle.italic,
+              color: Colors.white60,
+              fontSize: subtitleSize - 2,
             ),
           ),
         ],
